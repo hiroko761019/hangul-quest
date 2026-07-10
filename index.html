@@ -2,41 +2,131 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ハングルクエスト</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#7c3aed" />
+  <title>Hangul Quest Ver1.1</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="app">
-    <header>
+    <header class="hero">
       <p class="eyebrow">読む力を育てる韓国語RPG</p>
-      <h1>ハングルクエスト</h1>
-      <p class="subtitle">文字 → 料理 → 旅行 → BTS → レシピへ。3年後、ソウルをひとりで歩ける私になる。</p>
+      <h1>Hangul Quest</h1>
+      <p class="subtitle">文字の村を冒険して、気づいたらハングルが読める私へ。</p>
+      <span class="version">Ver1.1</span>
     </header>
+
+    <section class="card player-card" aria-label="プレイヤー情報">
+      <div class="level-badge">Lv.<span id="level">1</span></div>
+      <div class="exp-area">
+        <div class="exp-row">
+          <strong>EXP</strong>
+          <span><span id="exp">0</span> / <span id="nextExp">50</span></span>
+        </div>
+        <div class="exp-bar" aria-label="経験値">
+          <div id="expFill" class="exp-fill"></div>
+        </div>
+        <p id="levelMessage" class="mini-message">あと5問でレベルアップ！</p>
+      </div>
+    </section>
 
     <section class="card stats">
       <div><span id="score">0</span><small>正解</small></div>
       <div><span id="total">0</span><small>挑戦</small></div>
       <div><span id="streak">0</span><small>連続</small></div>
+      <div><span id="learnedCount">0</span><small>覚えた文字</small></div>
     </section>
 
-    <section class="modes" id="modeButtons"></section>
+    <section class="card guide">
+      <div class="guide-icon" id="guideIcon">🐥</div>
+      <div>
+        <p class="guide-name">クエストガイド</p>
+        <p id="guideMessage">文字の村へようこそ！最初は母音の泉から始めよう。</p>
+      </div>
+    </section>
 
-    <section class="card quiz">
-      <p class="mode-title" id="modeTitle">文字の村</p>
-      <div class="question" id="question">가</div>
-      <p class="hint" id="hint">読みを選んでね</p>
+    <section class="card map-card">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">WORLD MAP</p>
+          <h2>🌱 文字の村</h2>
+        </div>
+        <button id="resetBtn" class="text-button" type="button">記録をリセット</button>
+      </div>
+      <div id="stageMap" class="stage-map"></div>
+    </section>
+
+    <section class="card quiz" id="quizCard">
+      <div class="quiz-top">
+        <div>
+          <p class="mode-title" id="stageTitle">母音の泉</p>
+          <p class="stage-progress" id="stageProgress">0 / 5 クリア</p>
+        </div>
+        <span id="questType" class="quest-type">読み方クイズ</span>
+      </div>
+
+      <div class="question-wrap">
+        <p id="questionLabel" class="question-label">この文字はどう読む？</p>
+        <div class="question" id="question">가</div>
+        <div id="combineParts" class="combine-parts" hidden></div>
+      </div>
+
+      <p class="hint" id="hint">正しい読み方を選んでね</p>
       <div class="choices" id="choices"></div>
-      <p class="result" id="result"></p>
+      <p class="result" id="result" aria-live="polite"></p>
       <button class="next" id="nextBtn" type="button">次の問題へ</button>
     </section>
 
-    <section class="card review">
-      <h2>間違い復習</h2>
-      <p id="wrongList">まだ間違いはないよ。天才か。</p>
-      <button id="reviewBtn" type="button">間違えた問題だけ復習</button>
+    <section class="two-column">
+      <section class="card collection">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker">TODAY</p>
+            <h2>今日覚えた文字</h2>
+          </div>
+          <span id="todayCount" class="count-pill">0文字</span>
+        </div>
+        <div id="todayLetters" class="letter-chips empty">まだないよ。1問正解すると増える！</div>
+      </section>
+
+      <section class="card review">
+        <div class="section-heading compact">
+          <div>
+            <p class="section-kicker">REVIEW</p>
+            <h2>復習の小屋</h2>
+          </div>
+          <span id="wrongCount" class="count-pill">0問</span>
+        </div>
+        <p id="wrongList">まだ間違いはないよ。天才か。</p>
+        <button id="reviewBtn" type="button">間違えた問題だけ復習</button>
+      </section>
     </section>
+
+    <section class="card dictionary-card">
+      <div class="section-heading compact">
+        <div>
+          <p class="section-kicker">COLLECTION</p>
+          <h2>文字図鑑</h2>
+        </div>
+        <span id="dictionaryCount" class="count-pill">0 / 0</span>
+      </div>
+      <p class="dictionary-help">正解した文字が少しずつ図鑑に登録されるよ。</p>
+      <div id="dictionary" class="dictionary"></div>
+    </section>
+
+    <div id="levelUpModal" class="modal" hidden>
+      <div class="modal-card">
+        <div class="modal-sparkle">✨</div>
+        <p class="modal-kicker">LEVEL UP!</p>
+        <h2>レベル<span id="modalLevel">2</span>になった！</h2>
+        <p>文字の村での冒険が、また少し強くなったよ。</p>
+        <button id="closeModalBtn" type="button">冒険を続ける</button>
+      </div>
+    </div>
+
+    <div id="celebration" class="celebration" aria-hidden="true"></div>
   </main>
+
   <script src="script.js"></script>
 </body>
 </html>
