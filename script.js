@@ -40,37 +40,90 @@ villageStages[8].items = allVillageItems;
 villageStages[9].items = allVillageItems;
 
 // Ver1.3では「パッチムの山」の入口を実装。次のVer2.0で本格拡張する。
+const patchimSoundLabels = {
+  'ㅇ':'ン（喉の奥で響く）',
+  'ㄱ':'ク（息を出さず止める）',
+  'ㄴ':'ン（舌先で止める）',
+  'ㅁ':'ム（唇を閉じる）',
+  'ㄹ':'ル（舌先をつける）'
+};
+
+// [韓国語, 読み, パッチム, コース]
 const patchimStages = [
   {
-    id:'patchim_ng', icon:'🔔', title:'ㅇパッチムの岩場', desc:'最後に「ン」と響く文字', target:10,
+    id:'patchim_ng', icon:'🔔', title:'ㅇパッチムの岩場', desc:'旅行・料理・BTSなど4コース', target:20,
     items:[
-      ['강','カン'],['공','コン'],['방','パン/バン'],['봉','ポン/ボン'],['상','サン'],
-      ['성','ソン'],['송','ソン'],['영','ヨン'],['왕','ワン'],['중','チュン/ジュン'],
-      ['동','トン/ドン'],['명','ミョン'],['용','ヨン'],['홍','ホン']
+      ['강','カン','ㅇ','自然'],['공','コン','ㅇ','街'],['방','パン/バン','ㅇ','日常'],['봉','ポン/ボン','ㅇ','日常'],
+      ['상','サン','ㅇ','日常'],['성','ソン','ㅇ','街'],['송','ソン','ㅇ','BTS'],['영','ヨン','ㅇ','日常'],
+      ['왕','ワン','ㅇ','日常'],['중','チュン/ジュン','ㅇ','街'],['동','トン/ドン','ㅇ','街'],['명','ミョン','ㅇ','旅行'],
+      ['용','ヨン','ㅇ','日常'],['홍','ホン','ㅇ','旅行'],['한강','ハンガン','ㅇ','旅行'],['공항','コンハン','ㅇ','旅行'],
+      ['명동','ミョンドン','ㅇ','旅行'],['광장','クァンジャン','ㅇ','旅行'],['시장','シジャン','ㅇ','料理'],
+      ['냉면','ネンミョン','ㅇ','料理'],['된장','テンジャン','ㅇ','料理'],['사랑','サラン','ㅇ','BTS'],
+      ['영상','ヨンサン','ㅇ','BTS'],['공연','コンヨン','ㅇ','BTS'],['방탄','パンタン','ㅇ','BTS'],
+      ['정국','チョングク','ㅇ','BTS'],['성수','ソンス','ㅇ','旅行'],['동대문','トンデムン','ㅇ','旅行']
     ]
   },
   {
-    id:'patchim_k', icon:'🧗', title:'ㄱパッチムの崖', desc:'最後を「ク」と短く止める音', target:12,
+    id:'patchim_k', icon:'🧗', title:'ㄱパッチムの崖', desc:'国名・食事・日常の4コース', target:20,
     items:[
-      ['각','カク'],['국','クク/グク'],['목','モク'],['책','チェク'],
-      ['약','ヤク'],['역','ヨク'],['식','シク'],['백','ペク/ベク'],
-      ['박','パク/バク'],['밖','パク'],['부엌','プオク'],['한국','ハングク'],
-      ['태국','テグク'],['미국','ミグク']
+      ['각','カク','ㄱ','基本'],['국','クク/グク','ㄱ','基本'],['목','モク','ㄱ','身体'],['책','チェク','ㄱ','日常'],
+      ['약','ヤク','ㄱ','日常'],['역','ヨク','ㄱ','旅行'],['식','シク','ㄱ','料理'],['백','ペク/ベク','ㄱ','数字'],
+      ['박','パク/バク','ㄱ','名前'],['밖','パク','ㄱ','日常'],['부엌','プオク','ㄱ','料理'],['한국','ハングク','ㄱ','旅行'],
+      ['태국','テグク','ㄱ','旅行'],['미국','ミグク','ㄱ','旅行'],['중국','チュングク','ㄱ','旅行'],
+      ['외국','ウェグク','ㄱ','旅行'],['음식','ウムシク','ㄱ','料理'],['아침식사','アチムシクサ','ㄱ','料理'],
+      ['저녁','チョニョク','ㄱ','料理'],['떡','トク','ㄱ','料理'],['떡국','トックク','ㄱ','料理'],
+      ['학교','ハッキョ','ㄱ','日常'],['입국','イプクク','ㄱ','旅行'],['출국','チュルグク','ㄱ','旅行'],
+      ['한국어','ハングゴ','ㄱ','学習'],['정국','チョングク','ㄱ','BTS'],['음악','ウマク','ㄱ','BTS'],
+      ['노래곡','ノレゴク','ㄱ','BTS']
     ]
   },
   {
-    id:'patchim_n', icon:'🌲', title:'ㄴパッチムの尾根', desc:'舌先で「ン」と止める音', target:12,
+    id:'patchim_n', icon:'🌲', title:'ㄴパッチムの尾根', desc:'人・街・時間・旅行の4コース', target:20,
     items:[
-      ['산','サン'],['문','ムン'],['눈','ヌン'],['손','ソン'],
-      ['돈','トン/ドン'],['선','ソン'],['안','アン'],['인','イン'],
-      ['전','チョン/ジョン'],['친','チン'],['한국인','ハングギン'],
-      ['사진','サジン'],['시간','シガン'],['부산','プサン']
+      ['산','サン','ㄴ','自然'],['문','ムン','ㄴ','日常'],['눈','ヌン','ㄴ','身体'],['손','ソン','ㄴ','身体'],
+      ['돈','トン/ドン','ㄴ','旅行'],['선','ソン','ㄴ','街'],['안','アン','ㄴ','基本'],['인','イン','ㄴ','人'],
+      ['전','チョン/ジョン','ㄴ','時間'],['친','チン','ㄴ','人'],['한국인','ハングギン','ㄴ','人'],
+      ['사진','サジン','ㄴ','日常'],['시간','シガン','ㄴ','時間'],['부산','プサン','ㄴ','旅行'],
+      ['일본','イルボン','ㄴ','旅行'],['서울역','ソウルリョク','ㄴ','旅行'],['편의점','ピョニジョム','ㄴ','旅行'],
+      ['친구','チング','ㄴ','人'],['언니','オンニ','ㄴ','人'],['누나','ヌナ','ㄴ','人'],
+      ['선물','ソンムル','ㄴ','日常'],['전화','チョヌァ','ㄴ','日常'],['오늘','オヌル','ㄴ','時間'],
+      ['내일','ネイル','ㄴ','時間'],['공연','コンヨン','ㄴ','BTS'],['지민','ジミン','ㄴ','BTS'],
+      ['인천','インチョン','ㄴ','旅行'],['한식','ハンシク','ㄴ','料理']
     ]
   },
-  {id:'patchim_next', icon:'🥾', title:'さらに上の登山道', desc:'次のアップデートで解放', target:0, items:[], comingSoon:true}
+  {
+    id:'patchim_m', icon:'🌳', title:'ㅁパッチムの森', desc:'料理・人・気持ち・BTSの4コース', target:20,
+    items:[
+      ['김','キム','ㅁ','料理'],['밤','パム/バム','ㅁ','日常'],['봄','ポム/ボム','ㅁ','季節'],
+      ['잠','チャム','ㅁ','日常'],['몸','モム','ㅁ','身体'],['마음','マウム','ㅁ','気持ち'],
+      ['사람','サラム','ㅁ','人'],['이름','イルム','ㅁ','人'],['처음','チョウム','ㅁ','基本'],
+      ['지금','チグム','ㅁ','時間'],['다음','タウム','ㅁ','時間'],['구름','クルム','ㅁ','自然'],
+      ['김치','キムチ','ㅁ','料理'],['김밥','キムパプ','ㅁ','料理'],['참기름','チャムギルム','ㅁ','料理'],
+      ['소금','ソグム','ㅁ','料理'],['아침','アチム','ㅁ','料理'],['점심','チョムシム','ㅁ','料理'],
+      ['음식','ウムシク','ㅁ','料理'],['감사','カムサ','ㅁ','旅行'],['감사합니다','カムサハムニダ','ㅁ','旅行'],
+      ['춤','チュム','ㅁ','BTS'],['앨범','エルボム','ㅁ','BTS'],['팬덤','ペンドム','ㅁ','BTS'],
+      ['꿈','クム','ㅁ','BTS'],['지민','ジミン','ㅁ','BTS'],['남준','ナムジュン','ㅁ','BTS'],
+      ['아미','アミ','ㅁ','BTS']
+    ]
+  },
+  {
+    id:'patchim_r', icon:'🏕️', title:'ㄹパッチムの谷', desc:'ソウル・道・水・日常の4コース', target:20,
+    items:[
+      ['물','ムル','ㄹ','料理'],['달','タル','ㄹ','自然'],['길','キル','ㄹ','旅行'],['말','マル','ㄹ','学習'],
+      ['발','パル/バル','ㄹ','身体'],['별','ピョル','ㄹ','自然'],['술','スル','ㄹ','料理'],['일','イル','ㄹ','時間'],
+      ['월','ウォル','ㄹ','時間'],['오늘','オヌル','ㄹ','時間'],['내일','ネイル','ㄹ','時間'],
+      ['서울','ソウル','ㄹ','旅行'],['한글','ハングル','ㄹ','学習'],['지하철','チハチョル','ㄹ','旅行'],
+      ['출구','チュルグ','ㄹ','旅行'],['입구길','イプクキル','ㄹ','旅行'],['마을','マウル','ㄹ','街'],
+      ['호텔','ホテル','ㄹ','旅行'],['겨울','キョウル','ㄹ','季節'],['가을','カウル','ㄹ','季節'],
+      ['과일','クァイル','ㄹ','料理'],['불','プル/ブル','ㄹ','料理'],['불고기','プルゴギ','ㄹ','料理'],
+      ['설탕','ソルタン','ㄹ','料理'],['얼굴','オルグル','ㄹ','身体'],['노래를','ノレルル','ㄹ','BTS'],
+      ['보컬','ボコル','ㄹ','BTS'],['서울콘','ソウルコン','ㄹ','BTS']
+    ]
+  },
+  {id:'patchim_next', icon:'🥾', title:'さらに上の登山道', desc:'次回はㅂパッチムとその他のパッチム', target:0, items:[], comingSoon:true}
 ];
 
-const allItems = [...allVillageItems,...patchimStages.flatMap(stage=>stage.items)];
+const allItems = [...allVillageItems,...patchimStages.flatMap(stage=>stage.items || [])];
 
 const defaults = {
   score:0,total:0,streak:0,exp:0,level:1,
@@ -112,6 +165,12 @@ function migrateProgress(){
   const kDone = (state.patchimClears.patchim_k || 0) >= patchimStages[1].target;
   if(kDone) state.patchimUnlocked = Math.max(state.patchimUnlocked || 0, 2);
 
+  const nDone = (state.patchimClears.patchim_n || 0) >= 12;
+  if(nDone) state.patchimUnlocked = Math.max(state.patchimUnlocked || 0, 3);
+
+  const mDone = (state.patchimClears.patchim_m || 0) >= patchimStages[3].target;
+  if(mDone) state.patchimUnlocked = Math.max(state.patchimUnlocked || 0, 4);
+
   save();
 }
 
@@ -128,7 +187,7 @@ function today(){const d=new Date();return `${d.getFullYear()}-${d.getMonth()+1}
 function syncDay(){if(state.lastDate!==today()){state.lastDate=today();state.todayLearned=[];save()}}
 function needExp(){return state.level*50}
 function addExp(n){state.exp+=n;if(state.exp>=needExp()){state.exp-=needExp();state.level++;$('modalLevel').textContent=state.level;$('modal').hidden=false;celebrate(34)}}
-function title(){if((state.clears.boss||0)>=40)return '文字の村マスター';if(state.learned.length>=80)return '文字の探検家';return 'ハングル見習い'}
+function title(){if((state.patchimClears.patchim_r||0)>=20)return 'パッチム登山家';if((state.clears.boss||0)>=40)return '文字の村マスター';if(state.learned.length>=80)return '文字の探検家';return 'ハングル見習い'}
 
 function renderStats(){
   $('score').textContent=state.score;$('total').textContent=state.total;$('streak').textContent=state.streak;
@@ -189,7 +248,13 @@ function currentPool(){return reviewMode?unique(state.wrongs):currentStages()[cu
 
 function makeChoices(answer,type){
   const source=unique(allItems);
-  const candidates=type==='reading'?source.map(x=>x[1]):source.map(x=>x[0]);
+  let candidates;
+  if(type==='reading') candidates=source.map(x=>x[1]);
+  else if(type==='letter') candidates=source.map(x=>x[0]);
+  else if(type==='patchim') candidates=['ㅇ','ㄱ','ㄴ','ㅁ','ㄹ','ㅂ','ㄷ'];
+  else if(type==='sound') candidates=Object.values(patchimSoundLabels);
+  else candidates=source.map(x=>x[1]);
+
   const set=new Set([answer]);
   while(set.size<4)set.add(pick(candidates));
   return shuffle([...set]);
@@ -201,17 +266,51 @@ function nextQuestion(){
   answered=false;$('nextBtn').disabled=true;$('result').textContent='';$('result').className='result';
   if(!deck.length)deck=shuffle(pool);
   current=deck.pop();
-  const reading=Math.random()<.62;
+
   const s=reviewMode?{title:'復習の小屋',icon:'🔥'}:currentStages()[currentStage];
   const clearMap=currentClears();
   $('stageTitle').textContent=`${s.icon} ${s.title}`;
   $('stageProgress').textContent=reviewMode?`${unique(state.wrongs).length}文字を復習中`:`${Math.min(clearMap[s.id]||0,s.target)} / ${s.target}`;
-  $('questionType').textContent=reading?'読み方':'文字さがし';
-  $('questionLabel').textContent=reading?'この文字はどう読む？':`「${current[1]}」はどれ？`;
-  $('question').textContent=reading?current[0]:'？';
-  const correct=reading?current[1]:current[0];
+
+  let type='reading';
+  if(currentArea==='patchim' && !reviewMode){
+    type=pick(['reading','letter','patchim','sound']);
+  }else{
+    type=Math.random()<.62?'reading':'letter';
+  }
+
+  const course=current[3] ? `${current[3]}コース・` : '';
+  let correct;
+
+  if(type==='reading'){
+    $('questionType').textContent=`${course}読み方`;
+    $('questionLabel').textContent='この文字・単語はどう読む？';
+    $('question').textContent=current[0];
+    correct=current[1];
+  }else if(type==='letter'){
+    $('questionType').textContent=`${course}文字さがし`;
+    $('questionLabel').textContent=`「${current[1]}」はどれ？`;
+    $('question').textContent='？';
+    correct=current[0];
+  }else if(type==='patchim'){
+    $('questionType').textContent=`${course}パッチム判定`;
+    $('questionLabel').textContent='最後のパッチムはどれ？';
+    $('question').textContent=current[0];
+    correct=current[2];
+  }else{
+    $('questionType').textContent=`${course}音の種類`;
+    $('questionLabel').textContent='最後はどんな音で止める？';
+    $('question').textContent=current[0];
+    correct=patchimSoundLabels[current[2]];
+  }
+
   const root=$('choices');root.innerHTML='';
-  makeChoices(correct,reading?'reading':'letter').forEach(opt=>{const b=document.createElement('button');b.type='button';b.textContent=opt;b.onclick=()=>answer(b,opt,correct);root.appendChild(b)});
+  makeChoices(correct,type).forEach(opt=>{
+    const b=document.createElement('button');
+    b.type='button';b.textContent=opt;
+    b.onclick=()=>answer(b,opt,correct);
+    root.appendChild(b);
+  });
 }
 
 function answer(btn,opt,correct){
