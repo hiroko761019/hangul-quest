@@ -49,10 +49,19 @@ const patchimStages = [
       ['동','トン/ドン'],['명','ミョン'],['용','ヨン'],['홍','ホン']
     ]
   },
-  {id:'patchim_next', icon:'🧗', title:'次の登山道', desc:'Ver2.0で解放予定', target:0, items:[], comingSoon:true}
+  {
+    id:'patchim_k', icon:'🧗', title:'ㄱパッチムの崖', desc:'最後を「ク」と短く止める音', target:12,
+    items:[
+      ['각','カク'],['국','クク/グク'],['목','モク'],['책','チェク'],
+      ['약','ヤク'],['역','ヨク'],['식','シク'],['백','ペク/ベク'],
+      ['박','パク/バク'],['밖','パク'],['부엌','プオク'],['한국','ハングク'],
+      ['태국','テグク'],['미국','ミグク']
+    ]
+  },
+  {id:'patchim_next', icon:'🥾', title:'さらに上の登山道', desc:'次のアップデートで解放', target:0, items:[], comingSoon:true}
 ];
 
-const allItems = [...allVillageItems,...patchimStages[0].items];
+const allItems = [...allVillageItems,...patchimStages.flatMap(stage=>stage.items)];
 
 const defaults = {
   score:0,total:0,streak:0,exp:0,level:1,
@@ -86,6 +95,11 @@ function migrateProgress(){
   const bossDone = (state.clears.boss || 0) >= villageStages[9].target;
   if(bossDone) state.worldUnlocked.patchim = true;
   if(!state.worldUnlocked.village) state.worldUnlocked.village = true;
+
+  // ㅇパッチムの岩場をクリア済みなら、更新後すぐ次の登山道を解放する。
+  const ngDone = (state.patchimClears.patchim_ng || 0) >= patchimStages[0].target;
+  if(ngDone) state.patchimUnlocked = Math.max(state.patchimUnlocked || 0, 1);
+
   save();
 }
 
@@ -230,7 +244,14 @@ function checkStageClear(stage,count){
       message(`${stage.title}クリア！「${villageStages[currentStage+1].title}」が開いたよ！`,'🎉');celebrate(30);
     }
   }else{
-    message('ㅇパッチムの岩場クリア！山の続きを準備中だよ。','🏔️');celebrate(30);
+    if(currentStage < patchimStages.length - 1 && !patchimStages[currentStage + 1].comingSoon){
+      state.patchimUnlocked = Math.max(state.patchimUnlocked || 0, currentStage + 1);
+      message(`${stage.title}クリア！「${patchimStages[currentStage + 1].title}」が開いたよ！`,'🏔️');
+      celebrate(32);
+    }else{
+      message(`${stage.title}クリア！さらに上の登山道は次のアップデートで開くよ。`,'🏔️');
+      celebrate(30);
+    }
   }
 }
 
