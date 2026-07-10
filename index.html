@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ハングルクエスト</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header>
+      <p class="eyebrow">読む力を育てる韓国語RPG</p>
+      <h1>ハングルクエスト</h1>
+      <p class="subtitle">文字 → 料理 → 旅行 → BTS → レシピへ。3年後、ソウルをひとりで歩ける私になる。</p>
+    </header>
+
+    <section class="card stats">
+      <div><span id="score">0</span><small>正解</small></div>
+      <div><span id="total">0</span><small>挑戦</small></div>
+      <div><span id="streak">0</span><small>連続</small></div>
+    </section>
+
+    <section class="modes" id="modeButtons"></section>
+
+    <section class="card quiz">
+      <p class="mode-title" id="modeTitle">文字の村</p>
+      <div class="question" id="question">가</div>
+      <p class="hint" id="hint">読みを選んでね</p>
+      <div class="choices" id="choices"></div>
+      <p class="result" id="result"></p>
+      <button class="next" id="nextBtn" type="button">次の問題へ</button>
+    </section>
+
+    <section class="card review">
+      <h2>間違い復習</h2>
+      <p id="wrongList">まだ間違いはないよ。天才か。</p>
+      <button id="reviewBtn" type="button">間違えた問題だけ復習</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
