@@ -122,3 +122,8 @@ button.world-area{cursor:pointer}
   .stats strong{font-size:21px}.stats small{font-size:9px}
   .card{padding:15px;border-radius:21px}.dictionary{grid-template-columns:repeat(3,1fr)}
 }
+.area-card[hidden]{display:none}
+.world-area.current{border:2px solid var(--purple);background:#f8f4ff;opacity:1}
+button.world-area:disabled{cursor:not-allowed}
+.chapter-clear-card strong{color:var(--purple);font-size:1.15em}
+.full-link{width:100%;margin-top:8px}
