@@ -58,6 +58,15 @@ const patchimStages = [
       ['태국','テグク'],['미국','ミグク']
     ]
   },
+  {
+    id:'patchim_n', icon:'🌲', title:'ㄴパッチムの尾根', desc:'舌先で「ン」と止める音', target:12,
+    items:[
+      ['산','サン'],['문','ムン'],['눈','ヌン'],['손','ソン'],
+      ['돈','トン/ドン'],['선','ソン'],['안','アン'],['인','イン'],
+      ['전','チョン/ジョン'],['친','チン'],['한국인','ハングギン'],
+      ['사진','サジン'],['시간','シガン'],['부산','プサン']
+    ]
+  },
   {id:'patchim_next', icon:'🥾', title:'さらに上の登山道', desc:'次のアップデートで解放', target:0, items:[], comingSoon:true}
 ];
 
@@ -96,9 +105,12 @@ function migrateProgress(){
   if(bossDone) state.worldUnlocked.patchim = true;
   if(!state.worldUnlocked.village) state.worldUnlocked.village = true;
 
-  // ㅇパッチムの岩場をクリア済みなら、更新後すぐ次の登山道を解放する。
+  // クリア済みの登山道に応じて、更新後も次のステージを自動解放する。
   const ngDone = (state.patchimClears.patchim_ng || 0) >= patchimStages[0].target;
   if(ngDone) state.patchimUnlocked = Math.max(state.patchimUnlocked || 0, 1);
+
+  const kDone = (state.patchimClears.patchim_k || 0) >= patchimStages[1].target;
+  if(kDone) state.patchimUnlocked = Math.max(state.patchimUnlocked || 0, 2);
 
   save();
 }
